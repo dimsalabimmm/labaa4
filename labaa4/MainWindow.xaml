@@ -3,10 +3,112 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:labaa4"
+        xmlns:controls="clr-namespace:labaa4.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="3D Function Explorer"
+        Height="720"
+        Width="1100"
+        Background="#0B1018"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <SolidColorBrush x:Key="AccentBrush" Color="#FFFF9800" />
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="#CCFFFFFF" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="14 8" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="12"
+                                Margin="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#33FF9800" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#FFFF9800" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#66FF9800" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#44FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="30" Grid.Row="0">
+            <TextBlock Text="3D Function Explorer"
+                       FontSize="32"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Margin="0,0,0,6" />
+            <TextBlock Text="View multiple z = f(x, y) surfaces. Hold the right mouse button to rotate."
+                       Foreground="#B3FFFFFF"
+                       FontSize="15" />
+        </StackPanel>
+
+        <Border Grid.Row="1"
+                Margin="30"
+                Padding="24"
+                CornerRadius="20"
+                Background="#111827"
+                BorderBrush="#22FF9800"
+                BorderThickness="1">
+            <TabControl ItemsSource="{Binding Surfaces}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        TabStripPlacement="Top">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Ellipse Width="6"
+                                     Height="6"
+                                     Fill="{StaticResource AccentBrush}"
+                                     Margin="0,0,8,0" />
+                            <TextBlock Text="{Binding Title}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <controls:Function3DView FunctionData="{Binding Points}"
+                                                     Grid.Row="0"
+                                                     Margin="0,0,0,18" />
+
+                            <TextBlock Grid.Row="1"
+                                       Text="{Binding Description}"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       FontSize="14"
+                                       TextWrapping="Wrap" />
+                        </Grid>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </Border>
     </Grid>
 </Window>
