@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:labaa4.Controls"
+        xmlns:controls="clr-namespace:labaa4.Controls;assembly=labaa4"
         mc:Ignorable="d"
         Title="3D Function Explorer"
         Height="720"
@@ -90,22 +90,17 @@
 
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <controls:Function3DView FunctionData="{Binding Points}"
-                                                     Grid.Row="0"
-                                                     Margin="0,0,0,18" />
-
-                            <TextBlock Grid.Row="1"
+                        <DockPanel LastChildFill="True">
+                            <TextBlock DockPanel.Dock="Bottom"
+                                       Margin="0,12,0,0"
                                        Text="{Binding Description}"
                                        Foreground="{StaticResource AccentBrush}"
                                        FontSize="14"
                                        TextWrapping="Wrap" />
-                        </Grid>
+
+                            <controls:Function3DView Margin="0,0,0,12"
+                                                     FunctionData="{Binding Points}" />
+                        </DockPanel>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
